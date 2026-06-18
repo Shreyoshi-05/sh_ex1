@@ -13,6 +13,10 @@ app.use("/firstRoom",(req,res,next)=>{
   next();
 });
 
+app.use("*",(req,res)=>{
+  res.status(404).send("404 Page Not Found")
+})
+
 app.get("/firstRoom",(req,res)=>{
   res.send("this is Room First..")
 });
