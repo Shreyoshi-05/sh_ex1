@@ -13,30 +13,24 @@ app.use("/firstRoom",(req,res,next)=>{
   next();
 });
 
-app.use("*",(req,res)=>{
-  res.status(404).send("404 Page Not Found")
-})
 
 app.get("/firstRoom",(req,res)=>{
   res.send("this is Room First..")
 });
 
-// let order ={
-//   message: "Order created successfully",
-//   order: laptop
-// }
-
 let order = [];
+let id = 1;
 
 app.post("/orders",(req,res)=>{
 
   const {name, cost} = req.body;
   let nn = {
+    id: id++,
     name,
     cost
   }
 
-  order.push(...order,nn);
+  order.push(nn);
 
   res.json({
     message:"Order created successfully",
@@ -51,7 +45,19 @@ app.get("/orders",(req,res)=>{
   });
 });
 
+app.get("/orders/:id",(req,res)=>{
+  const id = req.params.id;
+  let ans = order.filter((item)=>item.id == id);
 
+  res.status(200).json({
+    "success":true,
+    "data":ans
+  })
+})
+
+app.use((req,res)=>{
+  res.status(404).send("404 Page Not Found");
+});
 
 const port = 3000;
 app.listen(port,()=>{
